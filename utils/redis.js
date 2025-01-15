@@ -53,4 +53,3 @@ process.on('SIGINT', async () => {
   await redisClient.client.quit();
   process.exit(0);
 });
-
