@@ -7,7 +7,7 @@ class DBClient {
       DB_PORT = 27017,
       DB_DATABASE = 'files_manager',
     } = process.env;
-    
+
     const url = `mongodb://${DB_HOST}:${DB_PORT}`;
 
     this.client = new MongoClient(url, {
@@ -19,7 +19,7 @@ class DBClient {
     this.client.connect().catch((error) => {
       console.error('Error occurred while connecting to MongoDB:', error);
     });
-    
+
     // Initialize the database instance
     this.db = this.client.db(DB_DATABASE);
   }
@@ -56,5 +56,4 @@ class DBClient {
 }
 
 const dbClient = new DBClient();
-export default dbClient;  // Use default export for ES Modules
-
+export default dbClient;// Use default export for ES Module
