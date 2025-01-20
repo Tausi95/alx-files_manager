@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
-import dbClient from '../utils/db.js';
-import redisClient from '../utils/redis.js';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
 
 export function hashPassword(password) {
   const sha1 = crypto.createHash('sha1');
