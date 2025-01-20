@@ -1,109 +1,34 @@
 import express from 'express';
-import appController from '../controllers/AppController';
-import userController from '../controllers/UsersController';
-import authController from '../controllers/AuthController';
-import filesController from '../controllers/FilesController';
+import appController from '../controller/AppController';
+import userController from '../controller/UsersController';
+import authController from '../controller/AuthController';
+import filesController from '../controller/FilesController';
 
 const router = express.Router();
 
-// Status and Stats Routes
-router.get('/status', async (req, res, next) => {
-  try {
-    await appController.getStatus(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
+// Get db status
+router.get('/status', (req, res) => appController.getStatus(req, res));
+// Get db and redis stats
+router.get('/stats', (req, res) => appController.getStats(req, res));
+// Create new user
+router.post('/users', (req, res) => userController.postNew(req, res));
+// Get user by token
+router.get('/users/me', (req, res) => userController.getMe(req, res));
+// Connect user and create new session
+router.get('/connect', (req, res) => authController.getConnect(req, res));
+// Disconnect user and remove session
+router.get('/disconnect', (req, res) => authController.getDisconnect(req, res));
+// Upolad a new file
+router.post('/files', (req, res) => filesController.postUpload(req, res));
+// Get a file based on id
+router.get('/files/:id', (req, res) => filesController.getShow(req, res));
+// Get all files based on a folder Id
+router.get('/files', (req, res) => filesController.getIndex(req, res));
+// change public status of  to true
+router.put('/files/:id/publish', (req, res) => filesController.putPublish(req, res));
+// change public status of  to false
+router.put('/files/:id/unpublish', (req, res) => filesController.putUnpublish(req, res));
 
-router.get('/stats', async (req, res, next) => {
-  try {
-    await appController.getStats(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// User Routes
-router.post('/users', async (req, res, next) => {
-  try {
-    await userController.postNew(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/users/me', async (req, res, next) => {
-  try {
-    await userController.getMe(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Authentication Routes
-router.get('/connect', async (req, res, next) => {
-  try {
-    await authController.getConnect(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/disconnect', async (req, res, next) => {
-  try {
-    await authController.getDisconnect(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// File Routes
-router.post('/files', async (req, res, next) => {
-  try {
-    await filesController.postUpload(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/files/:id', async (req, res, next) => {
-  try {
-    await filesController.getShow(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/files', async (req, res, next) => {
-  try {
-    await filesController.getIndex(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/files/:id/publish', async (req, res, next) => {
-  try {
-    await filesController.putPublish(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/files/:id/unpublish', async (req, res, next) => {
-  try {
-    await filesController.putUnpublish(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/files/:id/data', async (req, res, next) => {
-  try {
-    await filesController.getFile(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
+router.get("/files/:id/data", (req, res) => filesController.getFile(req, res));
+//  return the content of the file document based on the ID
 export default router;
